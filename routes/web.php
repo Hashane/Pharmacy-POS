@@ -101,7 +101,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
 });
 
 // Admin Routes for Customer Portal Management
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     // Prescriptions Management
     Route::prefix('prescriptions')->name('prescriptions.')->group(function () {
         Route::get('/', [AdminPrescriptionController::class, 'index'])->name('index');
@@ -114,6 +114,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin'])->grou
     Route::prefix('customer-orders')->name('customer-orders.')->group(function () {
         Route::get('/', [AdminOrderController::class, 'index'])->name('index');
         Route::get('/{order}', [AdminOrderController::class, 'show'])->name('show');
-        Route::post('/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('update-status');
+        Route::patch('/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('update-status');
     });
 });

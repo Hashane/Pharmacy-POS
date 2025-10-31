@@ -4,40 +4,24 @@ namespace Modules\Order\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Modules\Order\DataTables\OrderDataTable;
 use Modules\Order\Entities\Order;
 
 class AdminOrderController extends Controller
 {
-    public function index(Request $request)
+    public function index(OrderDataTable $dataTable)
     {
-        $query = Order::with(['customerUser', 'items.product']);
+        abort_if(Gate::denies('access_products'), 403);
 
-        // Filter by status
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        // Search by reference or customer name
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('reference', 'like', '%' . $request->search . '%')
-                    ->orWhereHas('customerUser', function ($q) use ($request) {
-                        $q->where('name', 'like', '%' . $request->search . '%')
-                            ->orWhere('email', 'like', '%' . $request->search . '%');
-                    });
-            });
-        }
-
-        $orders = $query->latest()->paginate(15);
-
-        return view('admin.customer-orders::index', compact('orders'));
+        return $dataTable->render('order::admin.orders.index');
     }
 
     public function show(Order $order)
     {
         $order->load(['customerUser', 'items.product.media']);
 
-        return view('admin.customer-orders::show', compact('order'));
+        return view('Order::admin.orders.show', compact('order'));
     }
 
     public function updateStatus(Request $request, Order $order)
