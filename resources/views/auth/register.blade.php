@@ -20,7 +20,7 @@
         <div class="col-md-6">
             <div class="card mx-4">
                 <div class="card-body p-4">
-                    <form method="post" action="{{ url('/register') }}">
+                    <form method="post" action="{{ url('/customer/register') }}">
                         @csrf
                         <h1>Register</h1>
                         <p class="text-muted">Create your account</p>
@@ -46,6 +46,19 @@
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                    name="email" value="{{ old('email') }}" placeholder="Email">
                             @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                              </span>
+                            </div>
+                            <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                                   name="phone" value="{{ old('phone') }}"
+                                   placeholder="Phone">
+                            @error('phone')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

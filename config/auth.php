@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Customer\Entities\CustomerUser;
+
 return [
 
     /*
@@ -46,6 +48,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'customer_users',
+        ],
     ],
 
     /*
@@ -69,6 +76,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'customer_users' => [
+            'driver' => 'eloquent',
+            'model' => CustomerUser::class,
         ],
 
         // 'users' => [
@@ -95,6 +107,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'customer_users' => [
+            'provider' => 'customer_users',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

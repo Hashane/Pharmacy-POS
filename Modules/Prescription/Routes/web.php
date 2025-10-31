@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use $MODULE_NAMESPACE$\Prescription\$CONTROLLER_NAMESPACE$\PrescriptionController;
 
 /*
 |--------------------------------------------------------------------------

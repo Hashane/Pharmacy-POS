@@ -14,5 +14,7 @@
     "PurchasesReturn": true,
     "Quotation": true,
     "Reports": true,
-    "Prescription": true
+    "Prescription": true,
+    "Order": true,
+    "Customer": true
 }
