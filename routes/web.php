@@ -6,9 +6,9 @@ use Modules\Customer\Http\Controllers\CustomerDashboardController;
 use Modules\Customer\Http\Controllers\CustomerEmailVerificationController;
 use Modules\Customer\Http\Controllers\CustomerProductController;
 use Modules\Order\Http\Controllers\AdminOrderController;
-use Modules\Order\Http\Controllers\AdminPrescriptionController;
 use Modules\Order\Http\Controllers\CartController;
 use Modules\Order\Http\Controllers\OrderController;
+use Modules\Prescription\Http\Controllers\AdminPrescriptionController;
 use Modules\Prescription\Http\Controllers\PrescriptionController;
 
 /*
@@ -102,18 +102,20 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 // Admin Routes for Customer Portal Management
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-    // Prescriptions Management
-    Route::prefix('prescriptions')->name('prescriptions.')->group(function () {
-        Route::get('/', [AdminPrescriptionController::class, 'index'])->name('index');
-        Route::get('/{prescription}', [AdminPrescriptionController::class, 'show'])->name('show');
-        Route::post('/{prescription}/approve', [AdminPrescriptionController::class, 'approve'])->name('approve');
-        Route::post('/{prescription}/reject', [AdminPrescriptionController::class, 'reject'])->name('reject');
-    });
-
     // Customer Orders Management
     Route::prefix('customer-orders')->name('customer-orders.')->group(function () {
         Route::get('/', [AdminOrderController::class, 'index'])->name('index');
         Route::get('/{order}', [AdminOrderController::class, 'show'])->name('show');
         Route::patch('/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('update-status');
+    });
+
+    // Prescriptions Management
+    Route::prefix('prescriptions')->name('prescriptions.')->group(function () {
+        Route::get('/', [AdminPrescriptionController::class, 'index'])->name('index');
+        Route::get('/{prescription}', [AdminPrescriptionController::class, 'show'])->name('show');
+        Route::patch('/{prescription}/status', [AdminPrescriptionController::class, 'updateStatus'])->name('update-status');
+        Route::patch('/{prescription}/notes', [AdminPrescriptionController::class, 'updateNotes'])->name('update-notes');
+        Route::get('/file/{file}/download', [AdminPrescriptionController::class, 'downloadFile'])->name('download-file');
+        Route::get('/export/all', [AdminPrescriptionController::class, 'export'])->name('export');
     });
 });

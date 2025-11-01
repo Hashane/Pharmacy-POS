@@ -4,7 +4,7 @@ namespace Modules\Prescription\Entities;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Modules\People\Entities\CustomerUser;
+use Modules\Customer\Entities\CustomerUser;
 
 class Prescription extends Model
 {
