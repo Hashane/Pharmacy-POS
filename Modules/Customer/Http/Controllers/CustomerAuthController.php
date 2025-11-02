@@ -50,18 +50,15 @@ class CustomerAuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('customer::auth.login');
     }
 
     public function login(Request $request)
     {
-        dd($request->all());
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-
-        dd($credentials);
 
         if (Auth::guard('customer')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
