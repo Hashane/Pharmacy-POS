@@ -29,12 +29,13 @@ class CustomerEmailVerificationController extends Controller
 
     public function resend(Request $request)
     {
-        if ($request->user('customer')->hasVerifiedEmail()) {
+        $user = $request->user('customer');
+
+        if ($user->hasVerifiedEmail()) {
             return redirect()->route('customer.dashboard');
         }
 
-        $request->user('customer')->sendEmailVerificationNotification();
-
+        $user->sendEmailVerificationNotification();
         return back()->with('success', 'Verification link sent!');
     }
 }

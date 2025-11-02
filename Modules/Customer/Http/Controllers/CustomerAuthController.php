@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Modules\Customer\Entities\CustomerUser;
+use Modules\Customer\Entities\Customer;
 
 class CustomerAuthController extends Controller
 {
@@ -29,7 +29,7 @@ class CustomerAuthController extends Controller
             'address' => ['nullable', 'string'],
         ]);
 
-        $customerUser = CustomerUser::create([
+        $customerUser = Customer::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),

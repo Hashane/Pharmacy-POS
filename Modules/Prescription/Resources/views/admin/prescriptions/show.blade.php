@@ -206,13 +206,13 @@
                         <h5 class="mb-0"><i class="bi bi-person"></i> Customer Information</h5>
                     </div>
                     <div class="card-body">
-                        <p class="mb-1"><strong>{{ $prescription->customerUser->name }}</strong></p>
+                        <p class="mb-1"><strong>{{ $prescription->customer->name }}</strong></p>
                         <p class="mb-1">
-                            <i class="bi bi-envelope"></i> {{ $prescription->customerUser->email }}
+                            <i class="bi bi-envelope"></i> {{ $prescription->customer->email }}
                         </p>
-                        @if($prescription->customerUser->phone)
+                        @if($prescription->customer->phone)
                             <p class="mb-0">
-                                <i class="bi bi-telephone"></i> {{ $prescription->customerUser->phone }}
+                                <i class="bi bi-telephone"></i> {{ $prescription->customer->phone }}
                             </p>
                         @endif
                     </div>

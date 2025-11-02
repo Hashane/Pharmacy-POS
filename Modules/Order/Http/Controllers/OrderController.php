@@ -14,7 +14,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::where('customer_user_id', auth('customer')->id())
+        $orders = Order::where('customer_id', auth('customer')->id())
             ->with('items.product')
             ->latest()
             ->paginate(10);
@@ -25,7 +25,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         // Ensure customer can only view their own orders
-        if ($order->customer_user_id !== auth('customer')->id()) {
+        if ($order->customer_id !== auth('customer')->id()) {
             abort(403);
         }
 
@@ -37,7 +37,7 @@ class OrderController extends Controller
 
     public function checkout()
     {
-        $cartItems = CartItem::where('customer_user_id', auth('customer')->id())
+        $cartItems = CartItem::where('customer_id', auth('customer')->id())
             ->with('product')
             ->get();
 
@@ -59,7 +59,7 @@ class OrderController extends Controller
             'notes' => 'nullable|string|max:500',
         ]);
 
-        $cartItems = CartItem::where('customer_user_id', auth('customer')->id())
+        $cartItems = CartItem::where('customer_id', auth('customer')->id())
             ->with('product')
             ->get();
 
@@ -82,7 +82,7 @@ class OrderController extends Controller
             });
 
             $order = Order::create([
-                'customer_user_id' => auth('customer')->id(),
+                'customer_id' => auth('customer')->id(),
                 'reference' => Order::generateReference(),
                 'status' => 'pending',
                 'total_amount' => $totalAmount,
@@ -101,7 +101,7 @@ class OrderController extends Controller
             }
 
             // Clear cart
-            CartItem::where('customer_user_id', auth('customer')->id())->delete();
+            CartItem::where('customer_id', auth('customer')->id())->delete();
 
             DB::commit();
 

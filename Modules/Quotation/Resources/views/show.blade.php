@@ -40,7 +40,7 @@
                                 <h5 class="mb-2 border-bottom pb-2">Customer Info:</h5>
                                 <div><strong>{{ $customer->customer_name }}</strong></div>
                                 <div>{{ $customer->address }}</div>
-                                <div>Email: {{ $customer->customer_email }}</div>
+                                <div>Email: {{ $customer->email }}</div>
                                 <div>Phone: {{ $customer->customer_phone }}</div>
                             </div>
 

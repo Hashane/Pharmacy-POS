@@ -4,24 +4,26 @@ namespace Modules\Order\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\People\Entities\Customer;
+use Modules\Product\Entities\Product;
 
 class CartItem extends Model
 {
 
     protected $fillable = [
-        'customer_user_id',
+        'customer_id',
         'product_id',
         'quantity',
     ];
 
-    public function customerUser()
+    public function customer()
     {
-        return $this->belongsTo(\Modules\People\Entities\CustomerUser::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function product()
     {
-        return $this->belongsTo(\Modules\Product\Entities\Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function getSubTotalAttribute()

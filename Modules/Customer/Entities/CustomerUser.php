@@ -12,7 +12,7 @@ use Modules\Order\Entities\CartItem;
 use Modules\Order\Entities\Order;
 use Modules\Prescription\Entities\Prescription;
 
-class CustomerUser extends Authenticatable implements MustVerifyEmail
+class Customer extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -35,6 +35,15 @@ class CustomerUser extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    protected static function booted()
+    {
+        parent::booted();
+        static::creating(function ($model) {
+            $model->email = strtolower($model->email);
+        });
+    }
 
     public function sendEmailVerificationNotification()
     {

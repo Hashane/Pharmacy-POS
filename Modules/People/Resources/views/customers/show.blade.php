@@ -24,7 +24,7 @@
                                 </tr>
                                 <tr>
                                     <th>Customer Email</th>
-                                    <td>{{ $customer->customer_email }}</td>
+                                    <td>{{ $customer->email }}</td>
                                 </tr>
                                 <tr>
                                     <th>Customer Phone</th>

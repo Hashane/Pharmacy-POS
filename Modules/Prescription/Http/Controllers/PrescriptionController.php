@@ -13,7 +13,7 @@ class PrescriptionController extends Controller
 {
     public function index()
     {
-        $prescriptions = Prescription::where('customer_user_id', auth('customer')->id())
+        $prescriptions = Prescription::where('customer_id', auth('customer')->id())
             ->with('files')
             ->latest()
             ->paginate(10);
@@ -36,7 +36,7 @@ class PrescriptionController extends Controller
         DB::beginTransaction();
         try {
             $prescription = Prescription::create([
-                'customer_user_id' => auth('customer')->id(),
+                'customer_id' => auth('customer')->id(),
                 'reference' => Prescription::generateReference(),
                 'notes' => $request->notes,
                 'status' => 'pending',
@@ -70,7 +70,7 @@ class PrescriptionController extends Controller
     public function show(Prescription $prescription)
     {
         // Ensure customer can only view their own prescriptions
-        if ($prescription->customer_user_id !== auth('customer')->id()) {
+        if ($prescription->customer_id !== auth('customer')->id()) {
             abort(403);
         }
 

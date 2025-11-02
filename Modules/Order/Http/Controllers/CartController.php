@@ -11,7 +11,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cartItems = CartItem::where('customer_user_id', auth('customer')->id())
+        $cartItems = CartItem::where('customer_id', auth('customer')->id())
             ->with('product.media')
             ->get();
 
@@ -39,7 +39,7 @@ class CartController extends Controller
         ]);
 
         $cartItem = CartItem::firstOrNew([
-            'customer_user_id' => auth('customer')->id(),
+            'customer_id' => auth('customer')->id(),
             'product_id' => $product->id,
         ]);
 
@@ -63,7 +63,7 @@ class CartController extends Controller
     public function update(Request $request, CartItem $cartItem)
     {
         // Ensure customer can only update their own cart
-        if ($cartItem->customer_user_id !== auth('customer')->id()) {
+        if ($cartItem->customer_id !== auth('customer')->id()) {
             abort(403);
         }
 
@@ -81,7 +81,7 @@ class CartController extends Controller
     public function remove(CartItem $cartItem)
     {
         // Ensure customer can only remove from their own cart
-        if ($cartItem->customer_user_id !== auth('customer')->id()) {
+        if ($cartItem->customer_id !== auth('customer')->id()) {
             abort(403);
         }
 
@@ -92,7 +92,7 @@ class CartController extends Controller
 
     public function clear()
     {
-        CartItem::where('customer_user_id', auth('customer')->id())->delete();
+        CartItem::where('customer_id', auth('customer')->id())->delete();
 
         return back()->with('success', 'Cart cleared!');
     }
