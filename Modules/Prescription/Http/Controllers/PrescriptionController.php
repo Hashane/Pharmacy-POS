@@ -13,7 +13,7 @@ class PrescriptionController extends Controller
 {
     public function index()
     {
-        $prescriptions = Prescription::where('customer_user_id', auth('customer')->id())
+        $prescriptions = Prescription::where('customer_id', auth('customer')->id())
             ->with('files')
             ->latest()
             ->paginate(10);
@@ -30,20 +30,21 @@ class PrescriptionController extends Controller
     {
         $request->validate([
             'notes' => 'nullable|string|max:1000',
-            'files.*' => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240', // 10MB max
+            'prescription_files.*' => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240',
         ]);
 
         DB::beginTransaction();
+
         try {
             $prescription = Prescription::create([
-                'customer_user_id' => auth('customer')->id(),
+                'customer_id' => auth('customer')->id(),
                 'reference' => Prescription::generateReference(),
                 'notes' => $request->notes,
                 'status' => 'pending',
             ]);
 
-            if ($request->hasFile('files')) {
-                foreach ($request->file('files') as $file) {
+            if ($request->hasFile('prescription_files')) {
+                foreach ($request->file('prescription_files') as $file) {
                     $fileName = time() . '_' . $file->getClientOriginalName();
                     $filePath = $file->storeAs('prescriptions', $fileName, 'public');
 
@@ -70,7 +71,7 @@ class PrescriptionController extends Controller
     public function show(Prescription $prescription)
     {
         // Ensure customer can only view their own prescriptions
-        if ($prescription->customer_user_id !== auth('customer')->id()) {
+        if ($prescription->customer_id !== auth('customer')->id()) {
             abort(403);
         }
 

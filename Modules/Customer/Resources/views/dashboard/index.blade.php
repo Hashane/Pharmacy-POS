@@ -10,6 +10,20 @@
 
         <!-- Stats Cards -->
         <div class="row">
+            <div class="card stat-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                        <h5 class="card-title text-muted">Loyalty Balance</h5>
+                        <h2 class="display-5 my-3 text-primary">
+                            {{ auth('customer')->user()->loyalty_balance }}
+                            <span class="fs-5">pts</span>
+                        </h2>
+                        <p class="text-muted mb-0">Points earned from your completed orders</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="card stat-card">
                     <div class="card-body">
@@ -65,7 +79,6 @@
                             <div>
                                 <h6 class="text-muted mb-2">Prescriptions</h6>
                                 <h3 class="mb-0">{{ $stats['total_prescriptions'] }}</h3>
-                                <small class="text-muted">{{ $stats['pending_prescriptions'] }} pending</small>
                             </div>
                             <div class="text-info" style="font-size: 2rem;">
                                 <i class="bi bi-file-medical"></i>

@@ -4,14 +4,14 @@ namespace Modules\Order\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Customer\Entities\CustomerUser;
+use Modules\People\Entities\Customer;
 
 class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'customer_user_id',
+        'customer_id',
         'reference',
         'status',
         'total_amount',
@@ -26,9 +26,9 @@ class Order extends Model
         'completed_at' => 'datetime',
     ];
 
-    public function customerUser()
+    public function customer()
     {
-        return $this->belongsTo(CustomerUser::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function items()

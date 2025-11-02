@@ -4,14 +4,14 @@ namespace Modules\Prescription\Entities;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Customer\Entities\CustomerUser;
+use Modules\People\Entities\Customer;
 
 class Prescription extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'customer_user_id',
+        'customer_id',
         'reference',
         'notes',
         'status',
@@ -24,9 +24,9 @@ class Prescription extends Model
         'reviewed_at' => 'datetime',
     ];
 
-    public function customerUser()
+    public function customer()
     {
-        return $this->belongsTo(CustomerUser::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function files()

@@ -20,10 +20,10 @@ class PrescriptionDataTable extends DataTable
                 return view('prescription::admin.prescriptions.partials.actions', compact('data'));
             })
             ->addColumn('customer_name', function ($data) {
-                return $data->customerUser->name ?? 'N/A';
+                return $data->customer->name ?? 'N/A';
             })
-            ->addColumn('customer_email', function ($data) {
-                return $data->customerUser->email ?? 'N/A';
+            ->addColumn('email', function ($data) {
+                return $data->customer->email ?? 'N/A';
             })
             ->addColumn('files_count', function ($data) {
                 return $data->files->count() . ' file(s)';
@@ -49,7 +49,7 @@ class PrescriptionDataTable extends DataTable
     public function query(Prescription $model)
     {
         return $model->newQuery()
-            ->with(['customerUser', 'files', 'reviewer'])
+            ->with(['customer', 'files', 'reviewer'])
             ->latest();
     }
 
@@ -86,7 +86,7 @@ class PrescriptionDataTable extends DataTable
                 ->title('Customer')
                 ->className('text-center align-middle'),
 
-            Column::computed('customer_email')
+            Column::computed('email')
                 ->title('Email')
                 ->className('text-center align-middle'),
 

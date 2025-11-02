@@ -22,7 +22,7 @@ class OrderDataTable extends DataTable
             ->addColumn('customer_name', function ($data) {
                 return $data->customer->name ?? 'N/A';
             })
-            ->addColumn('customer_email', function ($data) {
+            ->addColumn('email', function ($data) {
                 return $data->customer->email ?? 'N/A';
             })
             ->addColumn('items_count', function ($data) {
@@ -51,7 +51,7 @@ class OrderDataTable extends DataTable
     public function query(Order $model)
     {
         return $model->newQuery()
-            ->with(['customerUser', 'items'])
+            ->with(['customer', 'items'])
             ->latest();
     }
 
@@ -88,7 +88,7 @@ class OrderDataTable extends DataTable
                 ->title('Customer')
                 ->className('text-center align-middle'),
 
-            Column::computed('customer_email')
+            Column::computed('email')
                 ->title('Email')
                 ->className('text-center align-middle'),
 

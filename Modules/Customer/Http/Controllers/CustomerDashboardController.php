@@ -11,22 +11,22 @@ class CustomerDashboardController extends Controller
     {
         $customer = auth('customer')->user();
 
-        $orders = Order::where('customer_user_id', $customer->id)
+        $orders = Order::where('customer_id', $customer->id)
             ->latest()
             ->take(5)
             ->get();
 
-        $prescriptions = Prescription::where('customer_user_id', $customer->id)
+        $prescriptions = Prescription::where('customer_id', $customer->id)
             ->latest()
             ->take(5)
             ->get();
 
         $stats = [
-            'total_orders' => Order::where('customer_user_id', $customer->id)->count(),
-            'pending_orders' => Order::where('customer_user_id', $customer->id)->where('status', 'pending')->count(),
-            'ready_orders' => Order::where('customer_user_id', $customer->id)->where('status', 'ready')->count(),
-            'total_prescriptions' => Prescription::where('customer_user_id', $customer->id)->count(),
-            'pending_prescriptions' => Prescription::where('customer_user_id', $customer->id)->where('status', 'pending')->count(),
+            'total_orders' => Order::where('customer_id', $customer->id)->count(),
+            'pending_orders' => Order::where('customer_id', $customer->id)->where('status', 'pending')->count(),
+            'ready_orders' => Order::where('customer_id', $customer->id)->where('status', 'ready')->count(),
+            'total_prescriptions' => Prescription::where('customer_id', $customer->id)->count(),
+            'pending_prescriptions' => Prescription::where('customer_id', $customer->id)->where('status', 'pending')->count(),
         ];
 
         return view('customer::dashboard.index', compact('orders', 'prescriptions', 'stats'));

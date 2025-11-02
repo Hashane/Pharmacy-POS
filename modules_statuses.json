@@ -16,5 +16,6 @@
     "Reports": true,
     "Prescription": true,
     "Order": true,
-    "Customer": true
+    "Customer": true,
+    "Loyalty": true
 }

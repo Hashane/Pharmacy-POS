@@ -1,6 +1,6 @@
 <?php
 
-use Modules\Customer\Entities\CustomerUser;
+use Modules\People\Entities\Customer;
 
 return [
 
@@ -51,7 +51,7 @@ return [
 
         'customer' => [
             'driver' => 'session',
-            'provider' => 'customer_users',
+            'provider' => 'customers',
         ],
     ],
 
@@ -78,9 +78,9 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'customer_users' => [
+        'customers' => [
             'driver' => 'eloquent',
-            'model' => CustomerUser::class,
+            'model' => Customer::class,
         ],
 
         // 'users' => [
@@ -112,8 +112,8 @@ return [
             'throttle' => 60,
         ],
 
-        'customer_users' => [
-            'provider' => 'customer_users',
+        'customers' => [
+            'provider' => 'customers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

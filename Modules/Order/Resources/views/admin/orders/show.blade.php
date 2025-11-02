@@ -127,13 +127,13 @@
                         <h5 class="mb-0">Customer Information</h5>
                     </div>
                     <div class="card-body">
-                        <p class="mb-1"><strong>{{ $order->customerUser->name }}</strong></p>
+                        <p class="mb-1"><strong>{{ $order->customer->name }}</strong></p>
                         <p class="mb-1">
-                            <i class="bi bi-envelope"></i> {{ $order->customerUser->email }}
+                            <i class="bi bi-envelope"></i> {{ $order->customer->email }}
                         </p>
-                        @if($order->customerUser->phone)
+                        @if($order->customer->phone)
                             <p class="mb-0">
-                                <i class="bi bi-telephone"></i> {{ $order->customerUser->phone }}
+                                <i class="bi bi-telephone"></i> {{ $order->customer->phone }}
                             </p>
                         @endif
                     </div>

@@ -30,7 +30,7 @@ class AdminPrescriptionController extends Controller
      */
     public function show(Prescription $prescription)
     {
-        $prescription->load(['customerUser', 'files', 'reviewer']);
+        $prescription->load(['customer', 'files', 'reviewer']);
 
         return view('prescription::admin.prescriptions.show', compact('prescription'));
     }

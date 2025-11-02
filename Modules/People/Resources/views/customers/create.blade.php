@@ -33,8 +33,8 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="customer_email">Email <span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" name="customer_email" required>
+                                        <label for="email">Email <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" name="email" required>
                                     </div>
                                 </div>
                             </div>
