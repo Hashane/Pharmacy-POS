@@ -3,12 +3,11 @@
 namespace Modules\Customer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Modules\Customer\Entities\Customer;
+use Modules\People\Entities\Customer;
 
 class CustomerAuthController extends Controller
 {
@@ -21,7 +20,7 @@ class CustomerAuthController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:customer_users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:customers,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required', 'string', 'max:20'],
             'city' => ['nullable', 'string', 'max:255'],
@@ -29,19 +28,22 @@ class CustomerAuthController extends Controller
             'address' => ['nullable', 'string'],
         ]);
 
-        $customerUser = Customer::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'city' => $request->city,
-            'country' => $request->country,
-            'address' => $request->address,
-        ]);
+        $customer = Customer::firstOrCreate(
+            ['email' => $request->email],
+            [
+                'customer_name'   => $request->name,
+                'email'  => $request->email,
+                'password'        => Hash::make($request->password),
+                'customer_phone'  => $request->phone,
+                'city'            => $request->city,
+                'country'         => $request->country,
+                'address'         => $request->address,
+            ]
+        );
 
-//        event(new Registered($customerUser));
+//        event(new Registered($customer));
 
-        Auth::guard('customer')->login($customerUser);
+        Auth::guard('customer')->login($customer);
 
         return redirect()->route('customer.verification.notice');
     }
@@ -53,10 +55,13 @@ class CustomerAuthController extends Controller
 
     public function login(Request $request)
     {
+        dd($request->all());
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
+        dd($credentials);
 
         if (Auth::guard('customer')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();

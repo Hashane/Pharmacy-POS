@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\People\Http\Controllers\CustomerAuthController;
+use Modules\Customer\Http\Controllers\CustomerAuthController;
 use Modules\Customer\Http\Controllers\CustomerDashboardController;
 use Modules\Customer\Http\Controllers\CustomerEmailVerificationController;
 use Modules\Customer\Http\Controllers\CustomerProductController;
