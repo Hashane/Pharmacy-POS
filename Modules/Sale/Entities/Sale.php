@@ -4,6 +4,7 @@ namespace Modules\Sale\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Loyalty\Entities\LoyaltyPoint;
 
 class Sale extends Model
 {
@@ -25,6 +26,28 @@ class Sale extends Model
         static::creating(function ($model) {
             $number = Sale::max('id') + 1;
             $model->reference = make_reference_id('SL', $number);
+        });
+
+        static::created(function ($sale) {
+            if ($sale->status === 'Completed') {
+
+                // Prevent duplicate points for the same sale
+                $alreadyEarned = LoyaltyPoint::where('sale_id', $sale->id)
+                    ->where('type', 'earn')
+                    ->exists();
+
+                if (! $alreadyEarned) {
+                    $points = floor($sale->total_amount / 10); // 1 point per 10 currency units
+
+                    LoyaltyPoint::create([
+                        'customer_id' => $sale->customer_id,
+                        'sale_id'     => $sale->id,
+                        'points'      => $points,
+                        'type'        => 'earn',
+                        'description' => 'Points earned for Sale #' . $sale->id,
+                    ]);
+                }
+            }
         });
     }
 
